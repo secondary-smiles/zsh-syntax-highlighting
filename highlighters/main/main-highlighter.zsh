@@ -210,7 +210,16 @@ _zsh_highlight_main__type() {
          # Add a subshell to avoid a zsh upstream bug; see issue #606.
          # ### Remove the subshell when we stop supporting zsh 5.7.1 (I assume 5.8 will have the bugfix).
          ! (builtin type -w -- "$1") >/dev/null 2>&1; then
-      REPLY=none
+         # If tea is installed check for magic
+         if [ "$TEA_MAGIC" = "1" ]; then
+          # Poll tea for the command, that way tea will be able to hook it and it can be color correctly
+          # TODO: Very slow currently, might be more efficient to make a cache or smth
+          if tea --provides "$1" >/dev/null 2>&1; then
+            REPLY=command
+          fi
+         else
+          REPLY=none
+         fi
     fi
   fi
   if ! (( $+REPLY )); then
