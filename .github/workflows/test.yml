@@ -9,8 +9,6 @@ on:
     paths-ignore:
       - '**.md'
       - '**.png'
-  schedule:
-    - cron: '29 7 * * 1'
 
 jobs:
   test:
